@@ -11,12 +11,13 @@ public class ApprovedCreateAccountGui extends JFrame {
     private JLabel aproovedLabel;
     private JLabel peselLabel;
 
-    public ApprovedCreateAccountGui() {
+    public ApprovedCreateAccountGui(String pesel) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(this.menuPanel);
         this.pack();
         this.setVisible(true);
         this.setSize(600, 400);
+        peselLabel.setText(pesel);
         buttonBackToMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -1,5 +1,7 @@
 package ClientModels;
 
+import PeselValidator.PeselValidator;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -29,9 +31,9 @@ public class Client extends ClientAbstract implements Serializable {
     // Delete account / UnregisteredClient
 
     public static Client makeClientUnregistered(String firstName, String surName, String pesel) throws Exception {
-
+        var peselValidator = new PeselValidator();
         var client = new Client(firstName, surName);
-        if(!client.validatePesel(pesel)) {
+        if(!peselValidator.validatePesel(pesel)) {
             throw new Exception("PESEL " + pesel + "is invalid. Try again");
         }
         client.makeUnregistered(pesel);
@@ -43,35 +45,6 @@ public class Client extends ClientAbstract implements Serializable {
         this.clientDynamicType = ClientDynamicType.UNREGISTERED_CLIENT;
         this.pesel = pesel;
         this.deleteRegisteredData();
-    }
-
-    public boolean validatePesel(String pesel) {
-        if (pesel == null) {
-            System.out.println("x");
-            return false;
-        }
-        String[] strArray = pesel.split("");
-        if (strArray.length != 11) {
-            return false;
-        }
-        int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
-        return this.checksum(strArray, weights);
-    }
-
-    private boolean checksum(String[] pesel, int[] weights) {
-        var max = pesel.length - 1;
-        var sum = 0;
-        var sumFin = 0;
-
-        for (int i = 0; i < max; i++) {
-            var w = parseInt(pesel[i], 10);
-            sum += (w * weights[i]) % 10;
-            sumFin = sum % 10;
-        }
-
-        var lastDigit = parseInt(pesel[max], 10);
-
-        return (10 - sumFin) % 10 == lastDigit;
     }
 
 
