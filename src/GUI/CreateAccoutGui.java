@@ -1,6 +1,8 @@
 package GUI;
 
+import Controllers.AccountController;
 import PeselValidator.PeselValidator;
+import PeselValidator.PeselModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,18 +26,26 @@ public class CreateAccoutGui extends JFrame {
         buttonBackToMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    new MainGui("AppBankMobile");
-                    dispose();
+                new MainGui("AppBankMobile");
+                dispose();
             }
         });
         buttonCheckPesel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 var peselValidator = new PeselValidator();
-                System.out.println(textPesel.getText());
                 if (peselValidator.validatePesel(textPesel.getText())) {
-                    new ApprovedCreateAccountGui(textPesel.getText());
-                    dispose();
+                    var accountController = new AccountController();
+                    var peselModel = accountController.getPeselData(textPesel.getText());
+                    if (peselModel.isAvaiable() && !peselModel.isAccountExist() && peselModel.isAdult()) {
+                        new ApprovedCreateAccountGui(textPesel.getText());
+                        dispose();
+                    } else {
+                        new InformationGui(peselModel);
+                        dispose();
+
+                    }
+
                     wrongPeselLabel.setText("");
                 } else {
                     wrongPeselLabel.setText("Błędny PESEL");

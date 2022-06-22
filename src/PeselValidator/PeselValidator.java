@@ -6,7 +6,6 @@ public class PeselValidator {
 
     public boolean validatePesel(String pesel) {
         if (pesel == null) {
-            System.out.println("x");
             return false;
         }
         String[] strArray = pesel.split("");
