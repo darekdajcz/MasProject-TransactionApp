@@ -26,4 +26,5 @@ public abstract class ClientAbstract implements Serializable {
     public void setSurName(String surName) {
         this.surName = surName;
     }
+
 }

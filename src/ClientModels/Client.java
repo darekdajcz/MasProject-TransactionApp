@@ -5,7 +5,6 @@ import PeselValidator.PeselValidator;
 import java.io.Serializable;
 import java.util.Date;
 
-import static java.lang.Integer.parseInt;
 
 public class Client extends ClientAbstract implements Serializable {
 
@@ -111,7 +110,7 @@ public class Client extends ClientAbstract implements Serializable {
         this.pesel = null;
     }
 
-    /// Getter and setter
+    /// Getter and Setter
 
     @Override
     public String getFirstName() {
@@ -137,27 +136,6 @@ public class Client extends ClientAbstract implements Serializable {
         if(this.clientDynamicType == ClientDynamicType.UNREGISTERED_CLIENT) {
             return this.pesel;
         } else throw new Exception("Not unregistered client");
-    }
-
-    public String saveDataToString() {
-        var toString = firstName + "|" +
-                       surName + "|" +
-                clientDynamicType + "|";
-
-        if (clientDynamicType == ClientDynamicType.UNREGISTERED_CLIENT) {
-            toString += pesel + "|";
-        }
-
-        if (clientDynamicType == ClientDynamicType.REGISTERED_CLIENT) {
-            toString += clientNumber + "|";
-            toString += nationality + "|";
-            toString += email + "|";
-            toString += creditPossibility + "|";
-            toString += address.saveDataToString() + "|";
-            toString += contactNumber + "|";
-            toString += birthDate + "|";
-        }
-        return toString;
     }
 
     @Override

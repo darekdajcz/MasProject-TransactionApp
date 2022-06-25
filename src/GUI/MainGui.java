@@ -25,12 +25,9 @@ public class MainGui extends JFrame {
         this.setVisible(true);
         this.setSize(600,400);
 
-        buttonCheckPossibility.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new CreateAccoutGui();
-                dispose();
-            }
+        buttonCheckPossibility.addActionListener(e -> {
+            new CreateAccoutGui();
+            dispose();
         });
     }
 
