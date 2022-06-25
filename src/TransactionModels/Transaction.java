@@ -1,15 +1,20 @@
 package TransactionModels;
 
+import AccountModels.Account;
+
 import java.util.Date;
 
 public class Transaction {
-    Long amount;
-    Date transactionDate;
-    Date approvedDate;
-    TransferType transferType;
-    PayoutType payoutType;
+    private Long idTransaction;
+    private Long amount;
+    private Date transactionDate;
+    private Date approvedDate;
+    private TransferType transferType;
+    private PayoutType payoutType;
+    private Account account;
 
-    public Transaction(Long amount, Date transactionDate, Date approvedDate, TransferType transferType, PayoutType payoutType) {
+    public Transaction(Long idTransaction, Long amount, Date transactionDate, Date approvedDate, TransferType transferType, PayoutType payoutType) {
+        this.idTransaction = idTransaction;
         this.amount = amount;
         this.transactionDate = transactionDate;
         this.approvedDate = approvedDate;
@@ -17,6 +22,21 @@ public class Transaction {
         this.payoutType = payoutType;
     }
 
+    public Long getIdTransaction() {
+        return idTransaction;
+    }
+
+    public void setIdTransaction(Long idTransaction) {
+        this.idTransaction = idTransaction;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
     public Long getAmount() {
         return amount;
     }
@@ -66,5 +86,13 @@ public class Transaction {
                 ", transferType=" + transferType +
                 ", payoutType=" + payoutType +
                 '}';
+    }
+
+    // qualified association
+    public void addAccount(Account account) {
+        if (this.account == null) {
+            this.account = account;
+            account.doTransaction(this);
+        }
     }
 }

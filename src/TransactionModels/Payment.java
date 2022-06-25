@@ -6,8 +6,8 @@ public class Payment extends Transaction {
     String place;
     int provision = 10;
 
-    public Payment(Long amount, Date transactionDate, Date approvedDate, TransferType transferType, PayoutType payoutType, String place) {
-        super(amount, transactionDate, approvedDate, transferType, payoutType);
+    public Payment(Long idTransaction, Long amount, Date transactionDate, Date approvedDate, TransferType transferType, PayoutType payoutType, String place) {
+        super(idTransaction, amount, transactionDate, approvedDate, transferType, payoutType);
         this.place = place;
     }
 
@@ -32,11 +32,11 @@ public class Payment extends Transaction {
         return "Payment{" +
                 "place='" + place + '\'' +
                 ", provision=" + provision +
-                ", amount=" + amount +
-                ", transactionDate=" + transactionDate +
-                ", approvedDate=" + approvedDate +
-                ", transferType=" + transferType +
-                ", payoutType=" + payoutType +
+                ", amount=" + super.getAmount() +
+                ", transactionDate=" + super.getTransferType() +
+                ", approvedDate=" + super.getApprovedDate() +
+                ", transferType=" + super.getTransferType() +
+                ", payoutType=" + super.getPayoutType() +
                 '}';
     }
 }

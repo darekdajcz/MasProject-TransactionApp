@@ -1,17 +1,18 @@
 package AccountModels;
 
-import AccountModels.AccountBalance;
-import AccountModels.AccountType;
-import AccountModels.PackageType;
 
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.List;
+import TransactionModels.Transaction;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.*;
 
 public class Account {
     private Long accountNumber;
     private Date creationDate;
-    private String usingTime;
+    private int usingTime;
     private boolean blik;
 
     // Overlapping
@@ -19,6 +20,8 @@ public class Account {
 
     // Composition
     private AccountBalance accountBalance;
+
+    private Map<Long, Transaction> transactionMap = new TreeMap<>();
 
     // PERSONAL
     private PackageType packageType;
@@ -31,12 +34,38 @@ public class Account {
     // PREMIUM
     private int vipDiscount;
 
-    public Account(Long accountNumber, Date creationDate, String usingTime, boolean blik, AccountBalance accountBalance) {
+    public Account(Long accountNumber, Date creationDate, boolean blik) {
         this.accountNumber = accountNumber;
         this.creationDate = creationDate;
-        this.usingTime = usingTime;
+        this.usingTime = this.getUsingTimeInYears(creationDate);
         this.blik = blik;
-        this.accountBalance = accountBalance;
+    }
+
+    // qualified association
+    public void doTransaction(Transaction tr) {
+        // Check if we already have a student
+        if (!this.transactionMap.containsKey(tr.getIdTransaction())) {
+            if (tr.getAccount() == null) {
+                this.transactionMap.put(tr.getIdTransaction(), tr);
+            }
+            tr.addAccount(this);
+        }
+    }
+
+    public int getUsingTimeInYears(Date creationDate) {
+        var creationDateLocal = creationDate
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDateTime currentDate = LocalDateTime.now();
+            return Period.between(creationDateLocal, LocalDate.from(currentDate)).getYears();
+    }
+
+    // composition
+    public void addAccountBalance(AccountBalance accountBalance) {
+        if (this.accountBalance == null) {
+            this.accountBalance = accountBalance;
+        }
     }
 
     // Personal overlapping
@@ -55,8 +84,6 @@ public class Account {
             System.out.println("This account has not PERSONAL type");
         }
     }
-
-
     // Student overlapping
     public void makeAccountStudent(int studentCard, List<String> studentDiscount) {
         this.studentCard = studentCard;
@@ -73,7 +100,6 @@ public class Account {
             System.out.println("This account has not STUDENT type");
         }
     }
-
     // Premium overlapping
     public void makeAccountPremium(int vipDiscount) {
         this.vipDiscount = vipDiscount;
@@ -91,6 +117,11 @@ public class Account {
 
     // ###########################
     // Getters and setters
+
+    public Map<Long, Transaction> getTransactionMap() {
+        return transactionMap;
+    }
+
     public Long getAccountNumber() {
         return accountNumber;
     }
@@ -105,14 +136,6 @@ public class Account {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public String getUsingTime() {
-        return usingTime;
-    }
-
-    public void setUsingTime(String usingTime) {
-        this.usingTime = usingTime;
     }
 
     public boolean isBlik() {
@@ -213,7 +236,7 @@ public class Account {
                 ", usingTime='" + usingTime + '\'' +
                 ", blik=" + blik +
                 ", accountTypes=" + accountTypes +
-                ", accountBalance=" + accountBalance;
+                ", " + accountBalance;
         if (accountTypes.contains(AccountType.PERSONAL)) {
             toString += ", packageType=" + packageType;
             toString += ", expenseList=" + expenseList;

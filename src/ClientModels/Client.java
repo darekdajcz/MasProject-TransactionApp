@@ -1,9 +1,12 @@
 package ClientModels;
 
+import BankModels.Contract;
 import PeselValidator.PeselValidator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class Client extends ClientAbstract implements Serializable {
@@ -16,19 +19,21 @@ public class Client extends ClientAbstract implements Serializable {
     // RegisteredClient
     Long clientNumber;
     String nationality;
+
+    // optional
     String email;
     boolean creditPossibility;
+    //composite attribute
     Address address;
     String contactNumber;
     Date birthDate;
-
-
+    // attribute association
+    public final List<Contract> contracts = new ArrayList<>();
     public Client(String firstName, String surName) {
         super(firstName, surName);
     }
 
     // Delete account / UnregisteredClient
-
     public static Client makeClientUnregistered(String firstName, String surName, String pesel) throws Exception {
         var peselValidator = new PeselValidator();
         var client = new Client(firstName, surName);
@@ -40,6 +45,14 @@ public class Client extends ClientAbstract implements Serializable {
         return client;
     }
 
+    // attribute association
+    public void addContract(Contract contract) {
+        if (!contracts.contains(contract)){
+            contracts.add(contract);
+            contract.addClient(this);
+        }
+    }
+
     public void makeUnregistered(String pesel) {
         this.clientDynamicType = ClientDynamicType.UNREGISTERED_CLIENT;
         this.pesel = pesel;
@@ -48,7 +61,6 @@ public class Client extends ClientAbstract implements Serializable {
 
 
     // DELETE
-
     public static Client deleteClientAccount(String firstName, String surName, String pesel) {
 
 
@@ -75,7 +87,6 @@ public class Client extends ClientAbstract implements Serializable {
     }
 
     // Create an account / change type to RegisteredClient
-
     public void createClientAccount(long clientNumber, String nationality,
                                     String email,
                                     boolean creditPossibility,
@@ -106,11 +117,27 @@ public class Client extends ClientAbstract implements Serializable {
         this.deleteUnregisteredData();
     }
 
+    private void createAccount(Long clientNumber, String nationality,
+                               boolean creditPossibility,
+                               Address address, String contactNumber,
+                               Date birthDate) {
+        this.clientDynamicType = ClientDynamicType.REGISTERED_CLIENT;
+        this.clientNumber =
+                clientNumber;
+        this.nationality = nationality;
+        this.creditPossibility = creditPossibility;
+        this.address = address;
+        this.contactNumber = contactNumber;
+        this.birthDate = birthDate;
+        this.deleteUnregisteredData();
+    }
+
     public void deleteUnregisteredData() {
         this.pesel = null;
     }
 
     /// Getter and Setter
+
 
     @Override
     public String getFirstName() {
@@ -152,7 +179,9 @@ public class Client extends ClientAbstract implements Serializable {
         if (clientDynamicType == ClientDynamicType.REGISTERED_CLIENT) {
             toString += ", clientNumber=" + clientNumber;
             toString += ", nationality=" + nationality;
-            toString += ", email='" + email;
+            if(!email.isEmpty()) {
+                toString += ", email='" + email;
+            }
             toString += ", creditPossibility=" + creditPossibility;
             toString += ", address=" + address;
             toString += ", contactNumber='" + contactNumber;

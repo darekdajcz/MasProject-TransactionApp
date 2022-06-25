@@ -1,13 +1,15 @@
 package TransactionModels;
 
+import AccountModels.Account;
+
 import java.util.Date;
 
 public class Transfer extends Transaction{
     boolean express;
     int transferFee = 5;
 
-    public Transfer(Long amount, Date transactionDate, Date approvedDate, TransferType transferType, PayoutType payoutType, boolean express) {
-        super(amount, transactionDate, approvedDate, transferType, payoutType);
+    public Transfer(Long idTransaction,Long amount, Date transactionDate, Date approvedDate, TransferType transferType, PayoutType payoutType, boolean express) {
+        super(idTransaction, amount, transactionDate, approvedDate, transferType, payoutType);
         this.express = express;
     }
 
@@ -28,13 +30,23 @@ public class Transfer extends Transaction{
     }
 
     @Override
+    public void addAccount(Account account) {
+        if (super.getAccount() == null) {
+            super.setAccount(account);
+            account.doTransaction(this);
+        } else {
+            System.out.println("this transaction: " + super.getIdTransaction() + "  currently has an account: " + account.getAccountNumber());
+        }
+    }
+
+    @Override
     public String toString() {
         return "Transfer{" +
-                "amount=" + amount +
-                ", transactionDate=" + transactionDate +
-                ", approvedDate=" + approvedDate +
-                ", transferType=" + transferType +
-                ", payoutType=" + payoutType +
+                "amount=" + super.getAmount() +
+                ", transactionDate=" + super.getTransferType() +
+                ", approvedDate=" + super.getApprovedDate() +
+                ", transferType=" + super.getTransferType() +
+                ", payoutType=" + super.getPayoutType() +
                 ", express=" + express +
                 ", transferFee=" + transferFee +
                 '}';
