@@ -93,6 +93,8 @@ public class Transaction {
         if (this.account == null) {
             this.account = account;
             account.doTransaction(this);
+        } else {
+            System.out.println("this transaction: " + idTransaction + "  currently has an account: " + account.getAccountNumber());
         }
     }
 }

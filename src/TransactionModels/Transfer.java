@@ -31,12 +31,7 @@ public class Transfer extends Transaction{
 
     @Override
     public void addAccount(Account account) {
-        if (super.getAccount() == null) {
-            super.setAccount(account);
-            account.doTransaction(this);
-        } else {
-            System.out.println("this transaction: " + super.getIdTransaction() + "  currently has an account: " + account.getAccountNumber());
-        }
+        super.addAccount(account);
     }
 
     @Override

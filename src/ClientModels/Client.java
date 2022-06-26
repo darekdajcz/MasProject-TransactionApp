@@ -1,5 +1,6 @@
 package ClientModels;
 
+import BankModels.Bank;
 import BankModels.Contract;
 import PeselValidator.PeselValidator;
 
@@ -51,6 +52,7 @@ public class Client extends ClientAbstract implements Serializable {
             contracts.add(contract);
             contract.addClient(this);
         }
+
     }
 
     public void makeUnregistered(String pesel) {
@@ -94,11 +96,7 @@ public class Client extends ClientAbstract implements Serializable {
                                     String contactNumber,
                                     Date birthDate) throws Exception {
 
-        if (this.clientDynamicType == ClientDynamicType.UNREGISTERED_CLIENT) {
             this.createAccount(clientNumber, nationality, email, creditPossibility, address, contactNumber, birthDate);
-        } else {
-            throw new Exception("This client does not exsist. Enter PESEL first");
-        }
     }
 
     private void createAccount(Long clientNumber, String nationality,
@@ -138,6 +136,14 @@ public class Client extends ClientAbstract implements Serializable {
 
     /// Getter and Setter
 
+
+    public Long getClientNumber() {
+        return clientNumber;
+    }
+
+    public void setClientNumber(Long clientNumber) {
+        this.clientNumber = clientNumber;
+    }
 
     @Override
     public String getFirstName() {

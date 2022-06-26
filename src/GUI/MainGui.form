@@ -82,16 +82,18 @@
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <text value="Login"/>
+                              <text value="NumerKlienta"/>
                             </properties>
                           </component>
-                          <component id="a3c78" class="javax.swing.JTextField" binding="textLogin">
+                          <component id="a3c78" class="javax.swing.JTextField" binding="textClientId">
                             <constraints>
                               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="0" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
                               </grid>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <text value=""/>
+                            </properties>
                           </component>
                         </children>
                       </grid>
