@@ -77,6 +77,8 @@ public class Transaction {
         this.payoutType = payoutType;
     }
 
+
+
     @Override
     public String toString() {
         return "Transaction{" +

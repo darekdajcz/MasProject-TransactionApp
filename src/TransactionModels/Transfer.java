@@ -5,8 +5,8 @@ import AccountModels.Account;
 import java.util.Date;
 
 public class Transfer extends Transaction{
-    boolean express;
-    int transferFee = 5;
+   Boolean express;
+    static int transferFee = 5;
 
     public Transfer(Long idTransaction,Long amount, Date transactionDate, Date approvedDate, TransferType transferType, PayoutType payoutType, boolean express) {
         super(idTransaction, amount, transactionDate, approvedDate, transferType, payoutType);

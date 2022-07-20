@@ -2,8 +2,6 @@ package BankModels;
 
 import ClientModels.Client;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Contract {
     String contractId;
@@ -16,7 +14,6 @@ public class Contract {
     // attribute association
     public void addBank(Bank bank1) {
         if (bank1 != null){
-            System.out.println("XX");
             System.out.println(bank1);
             bank = bank1;
         } else {

@@ -24,7 +24,6 @@ public class Bank {
             contracts.add(contract1);
             contract1.addBank(this);
         }
-
     }
 
     public String getNameOfBank() {

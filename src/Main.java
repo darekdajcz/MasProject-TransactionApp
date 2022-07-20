@@ -16,9 +16,9 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-//        new MainGui("AppBankMobile");
+        //Xxxxxx example commit
 
-
+        // new MainGui("AppBankMobile");
         // abstract class
         // dynamic
         Address address = new Address("94-200", "Warszawa", "Dolna", "11");
@@ -32,7 +32,7 @@ public class Main {
                 address,
                 "421865552",
                 new Date());
-        System.out.println(client1);
+        System.out.println(client1.getClass().getSimpleName());
 
         Account account = new Account(123243L, new Date(), true);
         // overlapping
@@ -74,7 +74,7 @@ public class Main {
         // attribute association
 
         Address bankAddres = new Address("97-300", "Ptb", "Słowackiego", "1");
-        Bank bank =  new Bank("MBank",bankAddres);
+        Bank bank = new Bank("MBank", bankAddres);
 
         Contract contract = new Contract(true, true, "1");
         bank.addContract(contract);
